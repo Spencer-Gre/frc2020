@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,13 +16,13 @@ import frc.robot.Constants;
 
 public class DriveTrain extends SubsystemBase {
   
-  public WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.LEFT_MASTER);
-  public WPI_TalonSRX leftSlave = new WPI_TalonSRX(Constants.LEFT_SLAVE);
-  public WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.RIGHT_MASTER);
-  public WPI_TalonSRX rightSlave = new WPI_TalonSRX(Constants.RIGHT_SLAVE);
+  private WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.LEFT_MASTER);
+  private WPI_VictorSPX leftSlave = new WPI_VictorSPX(Constants.LEFT_SLAVE);
+  private WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.RIGHT_MASTER);
+  private WPI_VictorSPX rightSlave = new WPI_VictorSPX(Constants.RIGHT_SLAVE);
 
 
-  public DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
+  private DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
 
   /**
    * Creates a new DriveTrain.
@@ -31,9 +32,9 @@ public class DriveTrain extends SubsystemBase {
     rightSlave.follow(rightMaster);
   }
 
-public void telopDrive(double left, double right) {
-  drive.tankDrive(left, right);
-}
+  public void telopDrive(double left, double right) {
+    drive.arcadeDrive(left, right);
+  }
 
   @Override
   public void periodic() {

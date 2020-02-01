@@ -7,11 +7,14 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.commands.TankDrive;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,9 +24,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  final DriveTrain m_driveTrain = new DriveTrain();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+
+  // ! Joystick
+  final Joystick controller = new Joystick(0);
+  final DoubleSupplier leftsupply = () -> controller.getRawAxis(5);
+  final DoubleSupplier rightsupply = () -> controller.getRawAxis(4);
+
 
 
 
@@ -32,6 +41,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    m_driveTrain.setDefaultCommand(new TankDrive(m_driveTrain, leftsupply, rightsupply));
     configureButtonBindings();
   }
 
@@ -50,8 +60,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
-  }
+  }*/
 }
