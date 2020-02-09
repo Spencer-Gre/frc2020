@@ -32,9 +32,9 @@ public class LimelightAlign extends CommandBase {
 
     addRequirements(m_vision, m_driveTrain);
     
-    SmartDashboard.putNumber("Steering KP", 0.055);  // TODO -- Tune KPs on carpet
-    SmartDashboard.putNumber("min TA", 2.1);
-    SmartDashboard.putNumber("Driving KP", 0.80);
+    SmartDashboard.putNumber("Steering KP", 0.04);  // TODO -- Tune KPs on carpet
+    SmartDashboard.putNumber("min TA", 10);
+    SmartDashboard.putNumber("Driving KP", 0.093);
   }
 
   // Called when the command is initially scheduled.
@@ -68,7 +68,7 @@ public class LimelightAlign extends CommandBase {
      right = 0;
     }
 
-    m_driveTrain.telopDrive(left, right);
+    m_driveTrain.telopDrive(-left, right);
   }
 
   // Called once the command ends or is interrupted.
