@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.LimelightAlign;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,14 +27,16 @@ import frc.robot.commands.TankDrive;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  final DriveTrain m_driveTrain = new DriveTrain();
+  private final DriveTrain m_driveTrain = new DriveTrain();
+  private final Vision m_vision = new Vision();
 
 
 
   // ! Joystick
-  final Joystick controller = new Joystick(0);
-  final DoubleSupplier leftsupply = () -> controller.getRawAxis(5);
-  final DoubleSupplier rightsupply = () -> controller.getRawAxis(4);
+  private final Joystick controller = new Joystick(0);
+  final DoubleSupplier leftsupply = () -> controller.getRawAxis(1);
+  final DoubleSupplier rightsupply = () -> controller.getRawAxis(0);
+  public JoystickButton trigger;
 
 
 
@@ -52,6 +57,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    trigger = new JoystickButton(controller, 1);
+    trigger.whenHeld(new LimelightAlign(m_vision, m_driveTrain));
   }
 
 

@@ -32,8 +32,12 @@ public class DriveTrain extends SubsystemBase {
     rightSlave.follow(rightMaster);
   }
 
-  public void telopDrive(double left, double right) {
-    drive.arcadeDrive(left, right);
+  public void telopDrive(double y, double x) {
+    drive.arcadeDrive(y, x);
+  }
+
+  public void setPower() {
+    
   }
 
   @Override

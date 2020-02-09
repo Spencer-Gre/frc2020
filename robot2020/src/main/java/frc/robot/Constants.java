@@ -23,4 +23,8 @@ public final class Constants {
     public static final int RIGHT_MASTER = 2;
     public static final int RIGHT_SLAVE = 3;
 
+    public static final double Kp = .02;
+    public static final double min_command = .05;
+    public static final double distance_adjust = .05;
+
 }
