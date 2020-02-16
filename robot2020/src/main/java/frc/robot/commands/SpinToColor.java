@@ -29,7 +29,12 @@ public class SpinToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_colorWheel.spinColor();
+    if(m_colorWheel.getRequired().length() > 0){
+      Boolean isMet = false;
+      if(m_colorWheel.getColor() == m_colorWheel.getRequired()) {
+        isMet = true;
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.

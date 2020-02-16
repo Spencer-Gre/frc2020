@@ -12,7 +12,6 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -51,20 +50,18 @@ public class ColorWheel extends SubsystemBase {
     }
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public String getRequired() {
     final String gData = DriverStation.getInstance().getGameSpecificMessage();
     if(gData.length() > 0){
       reqColor = Character.toString(gData.charAt(0));
-      SmartDashboard.putString("Required Color", reqColor);
     }
+    return reqColor;
+  }
 
-    SmartDashboard.putBoolean("Color Met?", colorMatched);
-    
+  public String getColor() {
     final Color detectedColor = m_colorSensor.getColor();
     final ColorMatchResult match = m_colorMatch.matchClosestColor(detectedColor);
-    
+
     if (match.color == kBlueTarget) {
       colorString = "B";
     } else if (match.color == kRedTarget) {
@@ -77,10 +74,11 @@ public class ColorWheel extends SubsystemBase {
       colorString = "Unknown";
     }
 
-    SmartDashboard.putNumber("blue", detectedColor.blue);
-    SmartDashboard.putNumber("green", detectedColor.green);
-    SmartDashboard.putNumber("red", detectedColor.red);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
+    return colorString;
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 }
