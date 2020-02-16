@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Vision;
@@ -32,7 +29,7 @@ public class LimelightAlign extends CommandBase {
 
     addRequirements(m_vision, m_driveTrain);
     
-    SmartDashboard.putNumber("Steering KP", 0.04);  // TODO -- Tune KPs on carpet
+    SmartDashboard.putNumber("Steering KP", 0.04); 
     SmartDashboard.putNumber("min TA", 10);
     SmartDashboard.putNumber("Driving KP", 0.093);
   }
