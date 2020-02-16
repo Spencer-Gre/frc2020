@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.I2C;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -26,5 +28,7 @@ public final class Constants {
     public static final double Kp = .02;
     public static final double min_command = .05;
     public static final double distance_adjust = .05;
+
+    public static final I2C.Port i2c = I2C.Port.kOnboard;
 
 }
