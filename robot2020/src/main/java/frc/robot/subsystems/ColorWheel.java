@@ -11,22 +11,29 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class RevColorSense extends SubsystemBase {
+public class ColorWheel extends SubsystemBase {
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(Constants.i2c);
   
   private final ColorMatch m_colorMatch = new ColorMatch();
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);  /**
-   * Creates a new RevColorSense.
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113); 
+  
+  String reqColor;
+  String colorString;
+  Boolean colorMatched = false;
+  
+  /**
+   * Creates a new ColorWheel.
    */
-  public RevColorSense() {
+  public ColorWheel() {
     m_colorMatch.addColorMatch(kGreenTarget);
     m_colorMatch.addColorMatch(kRedTarget);
     m_colorMatch.addColorMatch(kBlueTarget);
@@ -34,21 +41,38 @@ public class RevColorSense extends SubsystemBase {
 
   }
 
+  public void spinColor() {
+    if(reqColor.length() > 0) {
+      while(colorMatched == false) {
+        if(colorString == reqColor){
+          colorMatched = true;
+        }
+      }
+    }
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    final String gData = DriverStation.getInstance().getGameSpecificMessage();
+    if(gData.length() > 0){
+      reqColor = Character.toString(gData.charAt(0));
+      SmartDashboard.putString("Required Color", reqColor);
+    }
+
+    SmartDashboard.putBoolean("Color Met?", colorMatched);
+    
     final Color detectedColor = m_colorSensor.getColor();
-    String colorString;
     final ColorMatchResult match = m_colorMatch.matchClosestColor(detectedColor);
     
     if (match.color == kBlueTarget) {
-      colorString = "Blue";
+      colorString = "B";
     } else if (match.color == kRedTarget) {
-      colorString = "Red";
+      colorString = "R";
     } else if (match.color == kGreenTarget) {
-      colorString = "Green";
+      colorString = "G";
     } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
+      colorString = "Y";
     } else {
       colorString = "Unknown";
     }

@@ -14,9 +14,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.RevColorSense;
+import frc.robot.subsystems.ColorWheel;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.LimelightAlign;
+import frc.robot.commands.SpinToColor;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -29,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Vision m_vision = new Vision();
-  private final RevColorSense m_colorSense = new RevColorSense();
+  private final ColorWheel m_colorWheel = new ColorWheel();
 
 
 
@@ -38,7 +39,7 @@ public class RobotContainer {
   final DoubleSupplier leftsupply = () -> controller.getRawAxis(1);
   final DoubleSupplier rightsupply = () -> controller.getRawAxis(0);
   public JoystickButton trigger;
-
+  public JoystickButton thumbDown;
 
 
 
@@ -60,6 +61,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     trigger = new JoystickButton(controller, 1);
     trigger.whenHeld(new LimelightAlign(m_vision, m_driveTrain));
+
+    thumbDown = new JoystickButton(controller, 2);
+    thumbDown.whenPressed(new SpinToColor(m_colorWheel));
   }
 
 
