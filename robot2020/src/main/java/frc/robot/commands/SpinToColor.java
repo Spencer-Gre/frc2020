@@ -32,31 +32,25 @@ public class SpinToColor extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    Boolean isMet = false;
-    SmartDashboard.putBoolean("Is met?", isMet);
-    
-    if(m_colorWheel.getRequired().length() > 0) {
-      while(isMet = false){
-        var color = m_colorWheel.getColor();
-        if (color == m_colorWheel.getRequired()) {
-          isMet = true;
-        }
-    }
-
-    SmartDashboard.putBoolean("Is met?", isMet);
-    this.end(false);
-    }
+  public void execute() {    
+    // Begin motor control
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Kill the motors
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    var color = m_colorWheel.getColor();
+    if(color == m_colorWheel.getRequired()) {
+      SmartDashboard.putBoolean("Is met?", true);
+      
+      return true;
+    }
     return false;
   }
 }
