@@ -10,17 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import java.util.function.DoubleSupplier;
+import frc.robot.RobotContainer;
 
 public class TankDrive extends CommandBase {
   private final DriveTrain m_driveTrain;
+  private final RobotContainer m_robotContainer;
   private final DoubleSupplier m_left;
   private final DoubleSupplier m_right;
   /**
    * Creates a new TankDrive.
    */
-  public TankDrive(DriveTrain driveTrain, DoubleSupplier left, DoubleSupplier right) {
+  public TankDrive(DriveTrain driveTrain, RobotContainer container, DoubleSupplier left, DoubleSupplier right) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
+    m_robotContainer = container;
     m_left = left;
     m_right = right;
     addRequirements(m_driveTrain);
@@ -34,7 +37,13 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.telopDrive(m_left.getAsDouble(), m_right.getAsDouble());
+    if(-m_robotContainer.getJoystickThrottle() > 0.5) {
+      m_driveTrain.telopDrive(m_left.getAsDouble(), m_right.getAsDouble());
+    } 
+    else{
+      m_driveTrain.telopDrive(-m_left.getAsDouble(), m_right.getAsDouble());
+    }
+
   }
 
   // Called once the command ends or is interrupted.

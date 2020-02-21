@@ -41,6 +41,11 @@ public class RobotContainer {
   public JoystickButton trigger;
   public JoystickButton thumbDown;
 
+  public double getJoystickThrottle() {
+    double throttle = controller.getThrottle();
+    return throttle;
+  }
+
 
 
   /**
@@ -48,7 +53,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    m_driveTrain.setDefaultCommand(new TankDrive(m_driveTrain, leftsupply, rightsupply));
+    m_driveTrain.setDefaultCommand(new TankDrive(m_driveTrain, this, leftsupply, rightsupply));
     configureButtonBindings();
   }
 

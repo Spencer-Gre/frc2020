@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import java.io.Console;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
