@@ -19,16 +19,32 @@ import edu.wpi.first.wpilibj.I2C;
  */
 public final class Constants {
 
-    // * Motor Controllers
+    // ! Motor Controllers
+    // * Drive
     public static final int LEFT_MASTER = 0;
     public static final int LEFT_SLAVE = 1;
     public static final int RIGHT_MASTER = 2;
     public static final int RIGHT_SLAVE = 3;
 
+    // * Functional
+    public static final int PWM_GRABBER_SR = 0;
+    public static final int PWM_WHEELARM_SR = 1;
+
+    // ! Switches & Sensors
+    public static final int DIO_WHEELARM_LIMIT = 0;
+    public static final int DIO_CONVEYOR_PHOTO = 1;
+    public static final int AI_CONVEYOR_SONAR = 0;
+
+    // ! Pneumatics
+    
+
+    // ! Constants
+    // * Limelight
     public static final double Kp = .02;
     public static final double min_command = .05;
     public static final double distance_adjust = .05;
 
+    // ! Ports
     public static final I2C.Port i2c = I2C.Port.kOnboard;
 
 }

@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -44,6 +47,18 @@ public class SpinToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    /* 
+    * Dictionary such that the key is the required color and the value is the color you must spin to.
+    */
+    HashMap<Character, Character> colorPattern = new HashMap<Character, Character>();
+    colorPattern.put('R', 'B');
+    colorPattern.put('Y', 'G');
+    colorPattern.put('B', 'R');
+    colorPattern.put('G', 'Y');
+
+    var gameRequired = m_colorWheel.getRequired();
+    
+
     if(m_colorWheel.getColor() == m_colorWheel.getRequired()) {
       SmartDashboard.putBoolean("Is met?", true);
       return true;
