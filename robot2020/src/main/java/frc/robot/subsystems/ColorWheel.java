@@ -12,6 +12,7 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -25,8 +26,8 @@ public class ColorWheel extends SubsystemBase {
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113); 
   
-  String reqColor;
-  String colorString;
+  char  reqColor;
+  char colorString;
   Boolean colorMatched = false;
   
   /**
@@ -40,38 +41,28 @@ public class ColorWheel extends SubsystemBase {
 
   }
 
-  public void spinColor() {
-    if(reqColor.length() > 0) {
-      while(colorMatched == false) {
-        if(colorString == reqColor){
-          colorMatched = true;
-        }
-      }
-    }
-  }
-
-  public String getRequired() {
+  public char getRequired() {
     final String gData = DriverStation.getInstance().getGameSpecificMessage();
     if(gData.length() > 0){
-      reqColor = Character.toString(gData.charAt(0));
+      reqColor = gData.charAt(0);
     }
     return reqColor;
   }
 
-  public String getColor() {
+  public char getColor() {
     final Color detectedColor = m_colorSensor.getColor();
     final ColorMatchResult match = m_colorMatch.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
-      colorString = "B";
+      colorString = 'B';
     } else if (match.color == kRedTarget) {
-      colorString = "R";
+      colorString = 'R';
     } else if (match.color == kGreenTarget) {
-      colorString = "G";
+      colorString = 'G';
     } else if (match.color == kYellowTarget) {
-      colorString = "Y";
+      colorString = 'Y';
     } else {
-      colorString = "Unknown";
+      colorString = 'U';
     }
 
     return colorString;
@@ -80,5 +71,7 @@ public class ColorWheel extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putString("DetectedColor", Character.toString(getColor()));
+    SmartDashboard.putString("ReqColor", Character.toString(getRequired()));
   }
 }

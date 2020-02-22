@@ -32,6 +32,7 @@ public class SpinToColor extends CommandBase {
   @Override
   public void execute() {    
     // Begin motor control
+    boolean isMet = false;
   }
 
   // Called once the command ends or is interrupted.
@@ -43,10 +44,8 @@ public class SpinToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    var color = m_colorWheel.getColor();
-    if(color == m_colorWheel.getRequired()) {
+    if(m_colorWheel.getColor() == m_colorWheel.getRequired()) {
       SmartDashboard.putBoolean("Is met?", true);
-      
       return true;
     }
     return false;
