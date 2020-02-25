@@ -30,6 +30,17 @@ public final class Constants {
     public static final int PWM_GRABBER_SR = 0;
     public static final int PWM_WHEELARM_SR = 1;
 
+    // ! Trajectory Following
+    public static final double K_TRACKWIDTH = 28;
+    public static final double K_SVOLTS = 0.22;
+    public static final double K_VELOCITYPERMETER = 1.98;
+    public static final double K_ACCELPERMETER = 0.2;
+    public static final double K_PDrive = 8.5;
+    public static final double K_MAXSPEED = 3;
+    public static final double K_MAXACCEL = 3;
+    public static final double K_RAMSETEB = 2;
+    public static final double K_RAMSETEZETA = 0.7;
+
     // ! Switches & Sensors
     public static final int DIO_WHEELARM_LIMIT = 0;
     public static final int DIO_CONVEYOR_PHOTO = 1;

@@ -57,9 +57,9 @@ public class SpinToColor extends CommandBase {
     colorPattern.put('G', 'Y');
 
     var gameRequired = m_colorWheel.getRequired();
-    
+    var colorRequired = colorPattern.get(gameRequired);
 
-    if(m_colorWheel.getColor() == m_colorWheel.getRequired()) {
+    if(m_colorWheel.getColor() == colorRequired) {
       SmartDashboard.putBoolean("Is met?", true);
       return true;
     }
