@@ -21,12 +21,19 @@ public final class Constants {
 
     // ! Motor Controllers
     // * Drive
-    public static final int LEFT_MASTER = 0;
-    public static final int LEFT_SLAVE = 1;
-    public static final int RIGHT_MASTER = 2;
-    public static final int RIGHT_SLAVE = 3;
+    public static final int LEFT_MASTER = 2;
+    public static final int LEFT_SLAVE = 3; // ! Currently using an SRX as slave.
+    public static final int RIGHT_MASTER = 0;
+    public static final int RIGHT_SLAVE = 1;
 
     // * Functional
+    public static final int SRX_COLORWHEEL = 4;
+    public static final int SRX_SHOOTER_MASTER = 5;
+    public static final int SPX_SHOOTER_FOLLOWER = 6;
+    public static final int SRX_CONVEYOR = 7;
+    public static final int SRX_ARM_MASTER = 8;
+    public static final int SPX_ARM_FOLLOWER = 9;
+
     public static final int PWM_GRABBER_SR = 0;
     public static final int PWM_WHEELARM_SR = 1;
 

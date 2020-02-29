@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -25,6 +27,8 @@ public class ColorWheel extends SubsystemBase {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113); 
+
+  private WPI_TalonSRX tal = new WPI_TalonSRX(Constants.SRX_COLORWHEEL);
   
   char  reqColor;
   char colorString;
@@ -39,6 +43,14 @@ public class ColorWheel extends SubsystemBase {
     m_colorMatch.addColorMatch(kBlueTarget);
     m_colorMatch.addColorMatch(kYellowTarget);
 
+  }
+
+  public void startMotor() {
+    tal.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void stopMotor() {
+    tal.set(ControlMode.PercentOutput, 0.0);
   }
 
   public char getRequired() {

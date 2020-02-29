@@ -18,8 +18,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ColorWheel;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.LimelightAlign;
+import frc.robot.commands.RunConveyor;
 import frc.robot.commands.SpinToColor;
 import frc.robot.subsystems.Vision;
 
@@ -36,6 +38,7 @@ public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Vision m_vision = new Vision();
   private final ColorWheel m_colorWheel = new ColorWheel();
+  private final Conveyor m_conveyor = new Conveyor();
 
 
   // ! Joystick
@@ -44,6 +47,7 @@ public class RobotContainer {
   final DoubleSupplier rightsupply = () -> controller.getRawAxis(0);
   public JoystickButton trigger;
   public JoystickButton thumbDown;
+  public JoystickButton buttonEight;
 
   public double getJoystickThrottle() {
     double throttle = controller.getThrottle();
@@ -73,6 +77,9 @@ public class RobotContainer {
 
     thumbDown = new JoystickButton(controller, 2);
     thumbDown.whenPressed(new SpinToColor(m_colorWheel));
+
+    buttonEight = new JoystickButton(controller, 8);
+    buttonEight.whileHeld(new RunConveyor(m_conveyor));
   }
 
 
