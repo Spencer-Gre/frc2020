@@ -9,12 +9,16 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -23,22 +27,53 @@ public class Conveyor extends SubsystemBase {
   private AnalogInput ultrasound;
   private Counter counter = new Counter();
 
+  private ProfiledPIDController pidController;
+
   /**
    * Creates a new Conveyor.
    */
   public Conveyor() {
     tal = new WPI_TalonSRX(Constants.SRX_CONVEYOR);
-    tal.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    tal.configFactoryDefault();
+    tal.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+    tal.setSensorPhase(false);
+    tal.setInverted(false);
+    tal.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
+    tal.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 30);
+    tal.configNominalOutputForward(0);
+    tal.configNominalOutputReverse(0);
+    tal.configPeakOutputForward(1);
+    tal.configPeakOutputReverse(1);
+
+    tal.selectProfileSlot(0, 1);
+    tal.config_kF(0, Constants.kGains.kF, 30);
+    tal.config_kP(0, Constants.kGains.kP, 30);
+    tal.config_kI(0, Constants.kGains.kI, 30);
+    tal.config_kD(0, Constants.kGains.kD, 30);
+
+
+    tal.configMotionCruiseVelocity(15000, 30);
+    tal.configMotionAcceleration(6000, 30);
+
+    tal.setSelectedSensorPosition(0, 1, 30);
+
+    //tal.setNeutralMode(NeutralMode.Brake);
+
 
     ultrasound = new AnalogInput(Constants.AI_CONVEYOR_SONAR);
     //photosensor = new DigitalInput(Constants.DIO_CONVEYOR_PHOTO);
 
     counter.setUpSource(Constants.DIO_CONVEYOR_PHOTO);
     counter.setUpSourceEdge(false, true);
+
   }
 
   public double getUltrasound() {
     return ultrasound.getValue();
+  }
+
+  public void incrementConveyor() {
+    tal.set(ControlMode.MotionMagic, 18000);
   }
 
   public void startConveyor() {
@@ -58,6 +93,6 @@ public class Conveyor extends SubsystemBase {
     SmartDashboard.putNumber("Conveyor USound", getUltrasound());
     SmartDashboard.putNumber("Conveyor Count", getCount());
 
-    SmartDashboard.putNumber("Conveyor Talon Count", tal.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Conveyor Pos", tal.getSelectedSensorPosition());
   }
 }

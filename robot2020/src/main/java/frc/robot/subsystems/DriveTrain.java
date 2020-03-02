@@ -10,9 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -30,12 +33,17 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.RIGHT_MASTER);
   private WPI_VictorSPX rightSlave = new WPI_VictorSPX(Constants.RIGHT_SLAVE);
 
+  private CANCoder leftEncoder = new CANCoder(Constants.ENCODER_LEFTDRIVE);
+  private CANCoder rightEncoder = new CANCoder(Constants.ENCODER_RIGHTDRIVE);
+  private CANCoderConfiguration encoderConfig = new CANCoderConfiguration();
 
   private DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
 
   // TODO: FIX FRAME LENGTH
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Constants.K_TRACKWIDTH));
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+
+  Pose2d pose;
 
 
   /**
@@ -45,8 +53,9 @@ public class DriveTrain extends SubsystemBase {
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
 
-    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    encoderConfig.unitString = "meters";
+    leftEncoder.configAllSettings(encoderConfig);
+    rightEncoder.configAllSettings(encoderConfig);
   }
 
   public void telopDrive(double y, double x) {
@@ -63,8 +72,8 @@ public class DriveTrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-      leftMaster.getSelectedSensorVelocity(),
-      rightMaster.getSelectedSensorVelocity()
+      leftEncoder.getVelocity(),
+      rightEncoder.getVelocity()
     );
   }
   
@@ -74,6 +83,5 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

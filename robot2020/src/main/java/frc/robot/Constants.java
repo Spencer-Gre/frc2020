@@ -49,6 +49,8 @@ public final class Constants {
     public static final double K_RAMSETEZETA = 0.7;
 
     // ! Switches & Sensors
+    public static final int ENCODER_LEFTDRIVE = 11;
+    public static final int ENCODER_RIGHTDRIVE = 12;
     public static final int DIO_WHEELARM_LIMIT = 0;
     public static final int DIO_CONVEYOR_PHOTO = 1;
     public static final int AI_CONVEYOR_SONAR = 0;
@@ -57,10 +59,16 @@ public final class Constants {
     
 
     // ! Constants
+    // * DRIVE
+    public static final double K_GEAR_RATIO = 7.29;
+    public static final double K_WHEEL_RADIUS_INCHES = 3.0;
+
     // * Limelight
     public static final double Kp = .02;
     public static final double min_command = .05;
     public static final double distance_adjust = .05;
+
+    public static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
 
     // ! Ports
     public static final I2C.Port i2c = I2C.Port.kOnboard;
