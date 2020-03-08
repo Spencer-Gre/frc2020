@@ -28,8 +28,8 @@ public final class Constants {
 
     // * Functional
     public static final int SRX_COLORWHEEL = 4;
-    public static final int SRX_SHOOTER_MASTER = 5;
-    public static final int SPX_SHOOTER_FOLLOWER = 6;
+    public static final int SRX_WINCH = 5;
+    public static final int SPX_TRAVERSE = 6;
     public static final int SRX_CONVEYOR = 7;
     public static final int SRX_ARM_MASTER = 8;
     public static final int SPX_ARM_FOLLOWER = 9;
@@ -69,7 +69,10 @@ public final class Constants {
     public static final double min_command = .05;
     public static final double distance_adjust = .05;
 
+
+    // ! Gains
     public static final Gains kGains = new Gains(2.27, 0.0, 0.0, 0.2, 0, 1.0);
+    public static final Gains kWheelGains = new Gains(4.2, 0.0, 0.0, 0.2, 0, 1.0);
 
     // ! Ports
     public static final I2C.Port i2c = I2C.Port.kOnboard;

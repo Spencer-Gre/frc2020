@@ -19,14 +19,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Grabber;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.LimelightAlign;
-import frc.robot.commands.RunArm;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.RunGrabber;
+import frc.robot.commands.ShootSingle;
+import frc.robot.commands.SpinThreeTimes;
 import frc.robot.commands.SpinToColor;
 import frc.robot.subsystems.Vision;
 
@@ -45,7 +46,7 @@ public class RobotContainer {
   private final Vision m_vision = new Vision();
   private final ColorWheel m_colorWheel = new ColorWheel();
   private final Conveyor m_conveyor = new Conveyor();
-  private final Arm m_arm = new Arm();
+  private final Shooter m_shooter = new Shooter();
   private final Grabber m_grabber = new Grabber();
 
   // ! Joystick
@@ -54,6 +55,7 @@ public class RobotContainer {
   final DoubleSupplier rightsupply = () -> controller.getRawAxis(0);
   public JoystickButton trigger;
   public JoystickButton thumbDown;
+  public JoystickButton buttonThree;
   public JoystickButton buttonEight;
   public JoystickButton buttonSeven;
   public JoystickButton buttonTen;
@@ -87,11 +89,14 @@ public class RobotContainer {
     thumbDown = new JoystickButton(controller, 2);
     thumbDown.whenPressed(new SpinToColor(m_colorWheel));
 
+    buttonThree = new JoystickButton(controller, 3);
+    buttonThree.whenPressed(new SpinThreeTimes(m_colorWheel));
+
     buttonEight = new JoystickButton(controller, 8);
     buttonEight.whenPressed(new RunConveyor(m_conveyor));
 
     buttonSeven = new JoystickButton(controller, 7);
-    buttonSeven.whileHeld(new RunArm(m_arm));
+    buttonSeven.whileHeld(new ShootSingle(m_shooter, m_conveyor));
 
     buttonTen = new JoystickButton(controller, 10);
     buttonTen.whenPressed(new RunGrabber(m_grabber, m_conveyor).andThen(new RunConveyor(m_conveyor)));

@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -28,7 +31,7 @@ public class ColorWheel extends SubsystemBase {
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113); 
 
-  private WPI_TalonSRX tal = new WPI_TalonSRX(Constants.SRX_COLORWHEEL);
+  private final WPI_TalonSRX tal = new WPI_TalonSRX(Constants.SRX_COLORWHEEL);
   
   char  reqColor;
   char colorString;
@@ -43,6 +46,31 @@ public class ColorWheel extends SubsystemBase {
     m_colorMatch.addColorMatch(kBlueTarget);
     m_colorMatch.addColorMatch(kYellowTarget);
 
+    tal.configFactoryDefault();
+    tal.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+    tal.setSensorPhase(true);
+    tal.setInverted(false);
+    tal.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
+    tal.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 30);
+    tal.configNominalOutputForward(0);
+    tal.configNominalOutputReverse(0);
+    tal.configPeakOutputForward(0.65);
+    tal.configPeakOutputReverse(0.65);
+
+    tal.selectProfileSlot(0, 1);
+    tal.config_kF(0, Constants.kWheelGains.kF, 30);
+    tal.config_kP(0, Constants.kWheelGains.kP, 30);
+    tal.config_kI(0, Constants.kWheelGains.kI, 30);
+    tal.config_kD(0, Constants.kWheelGains.kD, 30);
+
+
+    tal.configMotionCruiseVelocity(15000, 30);
+    tal.configMotionAcceleration(6000, 30);
+
+    tal.setSelectedSensorPosition(0, 0, 30);
+
+    tal.setNeutralMode(NeutralMode.Brake);
+
   }
 
   public void startMotor() {
@@ -51,6 +79,18 @@ public class ColorWheel extends SubsystemBase {
 
   public void stopMotor() {
     tal.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public void spinThreeTimes() {
+    tal.set(ControlMode.MotionMagic, 3000);
+  }
+
+  public int getWheelPos() {
+    return tal.getSelectedSensorPosition();
+  }
+
+  public void resetWheelPos() {
+    tal.setSelectedSensorPosition(0, 0, 10);
   }
 
   public char getRequired() {
@@ -85,5 +125,7 @@ public class ColorWheel extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putString("DetectedColor", Character.toString(getColor()));
     SmartDashboard.putString("ReqColor", Character.toString(getRequired()));
+    SmartDashboard.putNumber("ColorWheel Pos", tal.getSelectedSensorPosition());
+
   }
 }

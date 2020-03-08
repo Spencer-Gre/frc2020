@@ -13,24 +13,28 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends SubsystemBase {
+public class Shooter extends SubsystemBase {
   private CANSparkMax maxUn = new CANSparkMax(40, MotorType.kBrushless);
   private CANSparkMax maxDeux = new CANSparkMax(41, MotorType.kBrushless);
   /**
-   * Creates a new Arm.
+   * Creates a new Shooter.
    */
-  public Arm() {
+  public Shooter() {
     maxDeux.follow(maxUn);
     maxUn.getEncoder().setPosition(0);
     maxDeux.getEncoder().setPosition(0);
   }
 
-  public void startArm() {
+  public void startShooter() {
     maxUn.set(1.0);
   }
 
-  public void stopArm() {
+  public void stopShooter() {
     maxUn.set(0.0);
+  }
+
+  public double getRpm() {
+    return maxUn.getEncoder().getVelocity();
   }
 
   @Override

@@ -8,39 +8,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ColorWheel;
 
-public class RunArm extends CommandBase {
-  private final Arm m_arm;
+public class SpinThreeTimes extends CommandBase {
+  private final ColorWheel m_colorWheel;
   /**
-   * Creates a new RunArm.
+   * Creates a new SpinThreeTimes.
    */
-  public RunArm(Arm arm) {
+  public SpinThreeTimes(ColorWheel colorWheel) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_arm = arm;
-    addRequirements(m_arm);
+    m_colorWheel = colorWheel;
+    addRequirements(m_colorWheel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_colorWheel.resetWheelPos();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.startArm();
+    m_colorWheel.spinThreeTimes();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.stopArm();
+    m_colorWheel.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(m_colorWheel.getWheelPos() >= 3000 & m_colorWheel.getWheelPos() <= 8010){
+      return true;
+    }
     return false;
   }
 }

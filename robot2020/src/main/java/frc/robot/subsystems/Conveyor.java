@@ -39,8 +39,8 @@ public class Conveyor extends SubsystemBase {
     tal.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 30);
     tal.configNominalOutputForward(0);
     tal.configNominalOutputReverse(0);
-    tal.configPeakOutputForward(1);
-    tal.configPeakOutputReverse(1);
+    tal.configPeakOutputForward(0.25);
+    tal.configPeakOutputReverse(0.25);
 
     tal.selectProfileSlot(0, 1);
     tal.config_kF(0, Constants.kGains.kF, 30);
@@ -90,8 +90,11 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void incrementConveyor() {
-    tal.set(ControlMode.MotionMagic, 18000);
-    resetConveyorPos();
+    tal.set(ControlMode.MotionMagic, 8000);
+  }
+  
+  public void pushConveyor() {
+    tal.set(ControlMode.MotionMagic, 400);
   }
 
   public void startConveyor() {
