@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Conveyor;
@@ -24,6 +26,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.LimelightAlign;
 import frc.robot.commands.RunArm;
 import frc.robot.commands.RunConveyor;
+import frc.robot.commands.RunGrabber;
 import frc.robot.commands.SpinToColor;
 import frc.robot.subsystems.Vision;
 
@@ -36,13 +39,14 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static AHRS gyro = new AHRS(SPI.Port.kMXP);
+  public static boolean isCountIncrease = false;
 
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Vision m_vision = new Vision();
   private final ColorWheel m_colorWheel = new ColorWheel();
   private final Conveyor m_conveyor = new Conveyor();
   private final Arm m_arm = new Arm();
-
+  private final Grabber m_grabber = new Grabber();
 
   // ! Joystick
   private final Joystick controller = new Joystick(0);
@@ -52,6 +56,7 @@ public class RobotContainer {
   public JoystickButton thumbDown;
   public JoystickButton buttonEight;
   public JoystickButton buttonSeven;
+  public JoystickButton buttonTen;
 
   public double getJoystickThrottle() {
     double throttle = controller.getThrottle();
@@ -87,6 +92,9 @@ public class RobotContainer {
 
     buttonSeven = new JoystickButton(controller, 7);
     buttonSeven.whileHeld(new RunArm(m_arm));
+
+    buttonTen = new JoystickButton(controller, 10);
+    buttonTen.whenPressed(new RunGrabber(m_grabber, m_conveyor).andThen(new RunConveyor(m_conveyor)));
   }
 
 

@@ -53,6 +53,7 @@ public final class Constants {
     public static final int ENCODER_RIGHTDRIVE = 12;
     public static final int DIO_WHEELARM_LIMIT = 0;
     public static final int DIO_CONVEYOR_PHOTO = 1;
+    public static final int DIO_GRABBER_SWITCH = 4;
     public static final int AI_CONVEYOR_SONAR = 0;
 
     // ! Pneumatics
@@ -68,7 +69,7 @@ public final class Constants {
     public static final double min_command = .05;
     public static final double distance_adjust = .05;
 
-    public static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
+    public static final Gains kGains = new Gains(2.27, 0.0, 0.0, 0.2, 0, 1.0);
 
     // ! Ports
     public static final I2C.Port i2c = I2C.Port.kOnboard;
